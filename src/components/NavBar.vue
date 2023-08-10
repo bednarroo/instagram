@@ -1,7 +1,7 @@
 <template>
       <Container>
                 <div class="nav-container">
-                    <div class="right-content">
+                    <div class=" left-content">
                         <RouterLink to="/" key="Instagram"> Instagram</RouterLink>
                         <AInputSearch
                         v-model:value="userSearch"
@@ -10,9 +10,13 @@
                         @search="onSearch"
                          />
                     </div>
-                    <div class="left-content">
-                        <AButton type="primary">Signup</AButton>
-                        <AButton type="primary">Signin</AButton>
+                    <div class="right-content" v-if="isAuthenticated">
+                        <AuthModal :isLogin="false"></AuthModal>
+                        <AuthModal :isLogin="true"></AuthModal>
+                    </div>
+                    <div class="right-content" v-else>
+                        <AButton type="primary">Profile</AButton>
+                        <AButton type="primary">Logout</AButton>
                     </div>
              
             
@@ -23,13 +27,19 @@
 </template>
 
 <script  setup>
-import {RouterLink} from 'vue-router'
+import {RouterLink, useRouter} from 'vue-router'
 import Container from './Container.vue'
 import {ref} from "vue"
+import AuthModal from './AuthModal.vue';
 
-const userSearch = ref("");
+const userSearch = ref("")
+const router = useRouter()
+const isAuthenticated = ref(false)
 const onSearch = () => {
-
+    if(userSearch.value){
+        router.push(`/profile/${userSearch.value}`)
+        userSearch.value=""
+    }
 }
 
 
@@ -44,20 +54,20 @@ const onSearch = () => {
     align-items: center;
     width: 1000px;
 }
-.right-content{
+.left-content, .right-content{
     display: flex;
     align-items: center;
 }
 
-.right-content a {
+.left-content a {
     margin-right: 10px;
     font-size: 30px;
     text-decoration: none;
     color: #4096ff;
 }
-.left-content button {
-    margin-left: 10px;
-}
 
+.right-content button{
+    margin: 0 10px;
+}
 
 </style>

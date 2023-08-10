@@ -1,8 +1,15 @@
+
+
+<template>
+  <TimeLine></TimeLine>
+</template>
+
 <script setup>
+import TimeLine from '../components/TimeLine.vue';
+
 
 </script>
 
-<template>
-  <main>
-  </main>
-</template>
+<style>
+
+</style>
