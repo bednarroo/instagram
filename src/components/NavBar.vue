@@ -10,7 +10,8 @@
                         @search="onSearch"
                          />
                     </div>
-                    <div class="right-content" v-if="isAuthenticated">
+                    <div v-if="!loadingUser">
+                        <div class="right-content" v-if="!isAuthenticated">
                         <AuthModal :isLogin="false"></AuthModal>
                         <AuthModal :isLogin="true"></AuthModal>
                     </div>
@@ -18,8 +19,7 @@
                         <AButton type="primary">Profile</AButton>
                         <AButton type="primary">Logout</AButton>
                     </div>
-             
-            
+                    </div>
             </div>
         </Container>
 
@@ -31,8 +31,14 @@ import {RouterLink, useRouter} from 'vue-router'
 import Container from './Container.vue'
 import {ref} from "vue"
 import AuthModal from './AuthModal.vue';
+import {useUserStore} from '../stores/users'
+import { storeToRefs } from 'pinia';
 
+const userStore = useUserStore()
 const userSearch = ref("")
+
+
+const {loadingUser} = storeToRefs(userStore)
 const router = useRouter()
 const isAuthenticated = ref(false)
 const onSearch = () => {
