@@ -17,7 +17,7 @@
                     </div>
                     <div class="right-content" v-else>
                         <AButton type="primary">Profile</AButton>
-                        <AButton type="primary">Logout</AButton>
+                        <AButton @click="handleLogout" type="primary">Logout</AButton>
                     </div>
                     </div>
             </div>
@@ -38,7 +38,7 @@ const userStore = useUserStore()
 const userSearch = ref("")
 
 
-const {loadingUser} = storeToRefs(userStore)
+const {user} = storeToRefs(userStore)
 const router = useRouter()
 const isAuthenticated = ref(false)
 const onSearch = () => {
@@ -46,6 +46,10 @@ const onSearch = () => {
         router.push(`/profile/${userSearch.value}`)
         userSearch.value=""
     }
+}
+
+const handleLogout = async () => {
+    await userStore.handleLogout()
 }
 
 
