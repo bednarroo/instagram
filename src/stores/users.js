@@ -110,12 +110,10 @@ export const useUserStore = defineStore('users', () => {
     loadingUser.value = true;
     const {data} = await supabase.auth.getUser();
 
-  //   if(!data.user) {
-  //     loadingUser.value = false;
-  //     console.log(data)
-
-  //     return user.value = null
-  // }
+    if(!data.user) {
+      loadingUser.value = false;
+      return user.value = null
+  }
     const {data: userWithEmail}= await supabase
     .from("users")
     .select()
