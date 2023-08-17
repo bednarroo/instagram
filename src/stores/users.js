@@ -3,7 +3,7 @@ import { defineStore } from 'pinia'
 import { supabase } from "../supabase"
 
 export const useUserStore = defineStore('users', () => {
-  const user = ref(null)
+  const user = ref('null')
   const errorMessage = ref("")
   const loading = ref(false)
   const loadingUser = ref(false)
@@ -108,19 +108,20 @@ export const useUserStore = defineStore('users', () => {
   }
   const getUser = async () =>{
     loadingUser.value = true;
-    const data = await supabase.auth.getUser()
+    const {data} = await supabase.auth.getUser();
 
-    if(!data.user) {
-      loadingUser.value = false
-      return user.value = null
-  }
+  //   if(!data.user) {
+  //     loadingUser.value = false;
+  //     console.log(data)
 
-    const {data: userWithEmail} = await supabase
+  //     return user.value = null
+  // }
+    const {data: userWithEmail}= await supabase
     .from("users")
     .select()
     .eq("email", data.user.email)
     .single()
-
+      
     user.value = {
       username: userWithEmail.username,
       email: userWithEmail.email,

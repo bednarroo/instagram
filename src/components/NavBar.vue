@@ -1,5 +1,6 @@
 <template>
       <Container>
+        
                 <div class="nav-container">
                     <div class=" left-content">
                         <RouterLink to="/" key="Instagram"> Instagram</RouterLink>
@@ -10,8 +11,9 @@
                         @search="onSearch"
                          />
                     </div>
+                   
                     <div v-if="!loadingUser">
-                        <div class="right-content" v-if="!isAuthenticated">
+                        <div class="right-content" v-if="!user">
                         <AuthModal :isLogin="false"></AuthModal>
                         <AuthModal :isLogin="true"></AuthModal>
                     </div>
@@ -22,8 +24,6 @@
                     </div>
             </div>
         </Container>
-
-
 </template>
 
 <script  setup>
@@ -40,7 +40,7 @@ const userSearch = ref("")
 
 const {user} = storeToRefs(userStore)
 const router = useRouter()
-const isAuthenticated = ref(false)
+// const isAuthenticated = ref(false)
 const onSearch = () => {
     if(userSearch.value){
         router.push(`/profile/${userSearch.value}`)
