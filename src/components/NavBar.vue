@@ -18,7 +18,7 @@
                         <AuthModal :isLogin="true"></AuthModal>
                     </div>
                     <div class="right-content" v-else>
-                        <AButton type="primary">Profile</AButton>
+                        <AButton @click="goToUserProfile" type="primary">Profile</AButton>
                         <AButton @click="handleLogout" type="primary">Logout</AButton>
                     </div>
                     </div>
@@ -30,7 +30,7 @@
 import {RouterLink, useRouter} from 'vue-router'
 import Container from './Container.vue'
 import {ref} from "vue"
-import AuthModal from './AuthModal.vue';
+// import AuthModal from './AuthModal.vue';
 import {useUserStore} from '../stores/users'
 import { storeToRefs } from 'pinia';
 
@@ -50,6 +50,10 @@ const onSearch = () => {
 
 const handleLogout = async () => {
     await userStore.handleLogout()
+}
+
+const goToUserProfile = () => {
+    router.push(`/profile/${user.value.username}`)
 }
 
 
