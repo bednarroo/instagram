@@ -27,6 +27,7 @@
   const userStore = useUserStore()
 
   const {user} = storeToRefs(userStore)
+  const props = defineProps(['addNewPost'])
 
   const loading = ref(false)
   const open = ref(false)
@@ -41,13 +42,14 @@
   const handleOk = async () => {
     loading.value = true
     const fileName = Math.floor(Math.random()*1000000000000000000)
+    let filePath
     if(file.value){
         const {data, error} = await supabase.storage.from('images').upload('public/' + fileName, file.value)
         if(error){
             loading.value = false
             return errorMessage.value("Unable to uplad image")
         }
-
+        filePath = data.path;
         await supabase.from('posts').insert({
             url: data.path,
             caption: caption.value,
@@ -57,6 +59,12 @@
     }
 
     loading.value = false
+    open.value = false
+    caption.value = ""
+    props.addNewPost({
+        url: filePath,
+        caption: caption.value,
+    })
   };
 
   const handleUploadChange = (e) => {
