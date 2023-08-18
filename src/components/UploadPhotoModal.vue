@@ -1,11 +1,10 @@
 <template>
     <div>
-      <a-button type="primary" @click="showModal">Upload photo</a-button>
-      <a-modal v-model:open="open" title="Basic Modal" @ok="handleOk">
-        <p>Some contents...</p>
-        <p>Some contents...</p>
-        <p>Some contents...</p>
-      </a-modal>
+      <AButton type="primary" @click="showModal">Upload photo</AButton>
+      <AModal v-model:open="open" title="Upload photo" @ok="handleOk">
+        <input type="file" accept=".jpeg, .png">
+        <AInput placeholder="Caption..."></AInput>
+      </AModal>
     </div>
   </template>
   <script setup>
@@ -21,3 +20,10 @@
     open.value = false;
   };
   </script>
+
+<style scoped>
+
+input{
+    margin-top: 10px
+}
+</style>
