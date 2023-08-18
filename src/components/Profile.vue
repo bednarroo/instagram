@@ -9,18 +9,10 @@
                     followers: 100,
                     following: 342
                 }"
+                :addNewPost="addNewPost"
             />
             <ImageGallery
-                :posts="[{
-                    id: 1,
-                    image: 'https://static.photocdn.pt/images/articles/2018/12/05/articles/2017_8/beginner_photography_mistakes-1.webp',
-                },
-                {
-                    id: 1,
-                    image: 'https://static.photocdn.pt/images/articles/2018/12/05/articles/2017_8/beginner_photography_mistakes-1.webp',
-                }
-                
-                ]"
+                :posts="posts"
             />
         </div>
         
@@ -28,9 +20,19 @@
 </template>
 
 <script setup>
-import Container from './Container.vue';
-import ImageGallery from './ImageGallery.vue';
+
+import Container from './Container.vue'
+import ImageGallery from './ImageGallery.vue'
 import UserBar from './UserBar.vue'
+import { ref } from 'vue'
+
+const posts = ref([])
+
+const addNewPost = (post) => {
+    posts.value.unshift(post)
+}
+
+
 </script>
 
 <style scoped>
