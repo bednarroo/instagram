@@ -1,8 +1,12 @@
 <template>
-    <div class="userbar-container">
+    <div class="userbar-container" v-if="props.user">
         <div class="top-content">
             <ATypographyTitle :level="2">{{props.username}}</ATypographyTitle>
-            <UploadPhotoModal v-if="user && profileUsername===user.username"></UploadPhotoModal>
+            <UploadPhotoModal 
+                v-if="users && profileUsername === users.username"
+                :addNewPost="addNew"
+                >
+            </UploadPhotoModal>
         </div>
         <div class="bottom-content">
             <ATypographyTitle :level="5">{{props.userInfo.posts}} posts</ATypographyTitle>
@@ -10,21 +14,30 @@
             <ATypographyTitle :level="5">{{props.userInfo.following}} following</ATypographyTitle>
         </div>
     </div>
+    <div class="userbar-container" v-else>
+        <div class="top-content">
+            <ATypographyTitle :level="2">User not found</ATypographyTitle>
+        </div>
+    </div>
 </template>
 
 <script setup>
-import {defineProps} from 'vue'
-import UploadPhotoModal from './UploadPhotoModal.vue';
-import { useRoute } from 'vue-router';
+import {defineProps, onMounted} from 'vue'
+import UploadPhotoModal from './UploadPhotoModal.vue'
+import { useRoute } from 'vue-router'
 import {useUserStore} from '../stores/users'
-import { storeToRefs } from 'pinia';
+import { storeToRefs } from 'pinia'
 
-const props = defineProps(['username', 'userInfo'])
+const props = defineProps(['user','username', 'userInfo'])
 const route = useRoute()
 const userStore = useUserStore()
-const {user} = storeToRefs(userStore)
+const {user: users} = storeToRefs(userStore)
 
 const {username: profileUsername} = route.params
+
+onMounted(()=>{
+    console.log(users)
+})
 
 </script>
 
@@ -35,9 +48,10 @@ const {username: profileUsername} = route.params
     justify-content: space-between;
     align-items: center;
 }
-.usebar-container{
+.userbar-container{
     display: flex;
     padding-bottom: 75px;
+    flex-direction: row-reverse;
 }
 
 .bottom-content{
