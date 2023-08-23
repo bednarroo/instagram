@@ -3,7 +3,7 @@
         <div class="top-content">
             <ATypographyTitle :level="2">{{props.username}}</ATypographyTitle>
             <UploadPhotoModal 
-                v-if="user && profileUsername===user.username"
+                v-if="users && profileUsername === users.username"
                 :addNewPost="addNew"
                 >
             </UploadPhotoModal>
@@ -22,18 +22,22 @@
 </template>
 
 <script setup>
-import {defineProps} from 'vue'
-import UploadPhotoModal from './UploadPhotoModal.vue';
-import { useRoute } from 'vue-router';
+import {defineProps, onMounted} from 'vue'
+import UploadPhotoModal from './UploadPhotoModal.vue'
+import { useRoute } from 'vue-router'
 import {useUserStore} from '../stores/users'
-import { storeToRefs } from 'pinia';
+import { storeToRefs } from 'pinia'
 
 const props = defineProps(['user','username', 'userInfo'])
 const route = useRoute()
 const userStore = useUserStore()
-const {user} = storeToRefs(userStore)
+const {user: users} = storeToRefs(userStore)
 
 const {username: profileUsername} = route.params
+
+onMounted(()=>{
+    console.log(users)
+})
 
 </script>
 
@@ -44,9 +48,10 @@ const {username: profileUsername} = route.params
     justify-content: space-between;
     align-items: center;
 }
-.usebar-container{
+.userbar-container{
     display: flex;
     padding-bottom: 75px;
+    flex-direction: row-reverse;
 }
 
 .bottom-content{

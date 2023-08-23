@@ -45,12 +45,12 @@ const addNewPost = (post) => {
 
 const fetchData = async () => {
     loading.value = true
+    console.log(username)
     const {data: userData} = await supabase
         .from('users')
         .select()
         .eq('username', username)
-        .single
-
+        .single()
         if(!userData){
            loading.value = false
            return user.value = null
