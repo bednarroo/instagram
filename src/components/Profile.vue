@@ -56,7 +56,7 @@ const fetchData = async () => {
            return user.value = null
         }
 
-         user.value=userData
+        user.value=userData
 
         const {data: postsData} = await supabase
         .from('posts')

@@ -1,7 +1,7 @@
 <template>
     <div class="userbar-container" v-if="props.user">
         <div class="top-content">
-            <ATypographyTitle :level="2">{{props.username}}</ATypographyTitle>
+            <ATypographyTitle :level="2">{{props.user.username}}</ATypographyTitle>
             <UploadPhotoModal 
                 v-if="users && profileUsername === users.username"
                 :addNewPost="addNew"
@@ -47,6 +47,7 @@ onMounted(()=>{
     display: flex;
     justify-content: space-between;
     align-items: center;
+    flex-direction: column;
 }
 .userbar-container{
     display: flex;
@@ -56,7 +57,7 @@ onMounted(()=>{
 
 .bottom-content{
     display: flex;
-    align-items: center;
+    align-items: flex-end;
     
 }
 .bottom-content h5{
