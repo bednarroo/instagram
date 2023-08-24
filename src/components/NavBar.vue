@@ -30,7 +30,7 @@
 import {RouterLink, useRouter} from 'vue-router'
 import Container from './Container.vue'
 import {ref} from "vue"
-// import AuthModal from './AuthModal.vue';
+import AuthModal from './AuthModal.vue';
 import {useUserStore} from '../stores/users'
 import { storeToRefs } from 'pinia';
 
