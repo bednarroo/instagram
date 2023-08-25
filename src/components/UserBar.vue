@@ -8,7 +8,11 @@
                 :addNewPost="addNew"
                 >
             </UploadPhotoModal>
-            <AButton v-else>Follow</AButton>
+            <div v-else>
+                <AButton @click="followUser"  v-if="!props.isFollowing">Follow</AButton>
+                <AButton @click="followUser"  v-else>Following</AButton>
+            </div>
+            
             </div>
             
         </div>
@@ -31,8 +35,9 @@ import UploadPhotoModal from './UploadPhotoModal.vue'
 import { useRoute } from 'vue-router'
 import {useUserStore} from '../stores/users'
 import { storeToRefs } from 'pinia'
+import {supabase} from '../supabase'
 
-const props = defineProps(['user','username', 'userInfo'])
+const props = defineProps(['user','username', 'userInfo', 'isFollowing'])
 const route = useRoute()
 const userStore = useUserStore()
 const {user: users} = storeToRefs(userStore)
@@ -42,6 +47,14 @@ const {username: profileUsername} = route.params
 onMounted(()=>{
     console.log(users)
 })
+
+const followUser = async () => {
+    await supabase.from('followers_following')
+    .insert({
+        follower_id: users.value.id,
+        following_id: props.user.id,
+    })
+}
 
 </script>
 

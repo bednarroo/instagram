@@ -10,6 +10,7 @@
                     following: 342
                 }"
                 :addNewPost="addNewPost"
+                :isFallowing="isFallowing"
             />
             <ImageGallery
                 :posts="posts"
@@ -27,16 +28,21 @@
 import Container from './Container.vue'
 import ImageGallery from './ImageGallery.vue'
 import UserBar from './UserBar.vue'
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, watch } from 'vue'
 import {supabase} from '../supabase'
 import {useRoute} from 'vue-router'
+import {useUserStore} from '../stores/users'
+import { storeToRefs } from 'pinia'
 
 const route = useRoute()
 const user = ref(null)
+const userStore = useUserStore()
+const {user: loggedInUser} = storeToRefs(userStore)
 
 const {username} = route.params
 
 const posts = ref([])
+const isFollowing = ref(false)
 const loading = ref(false)
 
 const addNewPost = (post) => {
@@ -64,9 +70,27 @@ const fetchData = async () => {
         .eq('owner_id', user.value.id)
 
         posts.value = postsData
+        fetchIsFollowing()
         loading.value = false
 
 }
+
+const fetchIsFollowing = async () => {
+    if(loggedInUser.value && loggedInUser.value.id !== user.value.id){
+    const { data} = await supabase
+        .from('followers_following')
+        .select()
+        .eq('follower_id', loggedInUser.value.id)
+        .eq('following_id', user.value.id)
+        .single()
+
+        if (data) return isFollowing.value = true
+    }
+}
+
+watch(loggedInUser, () => {
+    fetchIsFollowing()
+})
 
 onMounted(()=>{
     fetchData()
