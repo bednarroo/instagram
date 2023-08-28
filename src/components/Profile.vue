@@ -10,7 +10,7 @@
                     following: 342
                 }"
                 :addNewPost="addNewPost"
-                :isFallowing="isFallowing"
+                :isFollowing="isFollowing"
             />
             <ImageGallery
                 :posts="posts"
@@ -62,6 +62,7 @@ const fetchData = async () => {
         }
 
         user.value=userData
+        fetchIsFollowing()
 
         const {data: postsData} = await supabase
         .from('posts')
@@ -69,7 +70,6 @@ const fetchData = async () => {
         .eq('owner_id', user.value.id)
 
         posts.value = postsData
-        fetchIsFollowing()
         loading.value = false
 
 }
@@ -79,8 +79,8 @@ const fetchIsFollowing = async () => {
     const { data, error} = await supabase
         .from('followers_following')
         .select()
-        .eq('follower_id', loggedInUser.value.id)
-        .eq('following_id', user.value.id)
+        .eq('follower_id', 15)
+        .eq('following_id', 19)
         .single()
         console.log(data)
         console.log(error)
@@ -88,7 +88,8 @@ const fetchIsFollowing = async () => {
     }
 }
 
-watch(loggedInUser, () => {
+watch(user, () => {
+    console.log(isFollowing.value)
     fetchIsFollowing()
 })
 

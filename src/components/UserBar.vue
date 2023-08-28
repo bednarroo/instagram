@@ -30,7 +30,7 @@
 </template>
 
 <script setup>
-import {defineProps, onMounted} from 'vue'
+import {defineProps, onMounted, onUpdated} from 'vue'
 import UploadPhotoModal from './UploadPhotoModal.vue'
 import { useRoute } from 'vue-router'
 import {useUserStore} from '../stores/users'
@@ -51,10 +51,6 @@ const followUser = async () => {
         following_id: props.user.id,
     })
 }
-
-onMounted(()=> {
-    console.log(props.isFollowing)
-})
 
 </script>
 
