@@ -76,19 +76,19 @@ const fetchData = async () => {
 
 const fetchIsFollowing = async () => {
     if(loggedInUser.value && loggedInUser.value.id !== user.value.id){
-    const { data, error} = await supabase
+    const { data } = await supabase
         .from('followers_following')
         .select()
-        .eq('follower_id', 15)
-        .eq('following_id', 19)
+        .eq('follower_id', loggedInUser.value)
+        .eq('following_id', username)
         .single()
-        console.log(data)
-        console.log(error)
-        if (data) return isFollowing.value = true
+        if (data){
+            return (isFollowing.value = true)
+        } 
     }
 }
 
-watch(user, () => {
+watch(username, () => {
     console.log(isFollowing.value)
     fetchIsFollowing()
 })
