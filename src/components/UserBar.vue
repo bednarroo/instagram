@@ -44,10 +44,6 @@ const {user: users} = storeToRefs(userStore)
 
 const {username: profileUsername} = route.params
 
-onMounted(()=>{
-    console.log(users)
-})
-
 const followUser = async () => {
     await supabase.from('followers_following')
     .insert({
@@ -55,6 +51,10 @@ const followUser = async () => {
         following_id: props.user.id,
     })
 }
+
+onMounted(()=> {
+    console.log(props.isFollowing)
+})
 
 </script>
 
