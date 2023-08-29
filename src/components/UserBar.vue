@@ -9,8 +9,8 @@
                 >
             </UploadPhotoModal>
             <div v-else>
-                <AButton @click="followUser"  v-if="!props.isFollowing">Follow</AButton>
-                <AButton @click="followUser"  v-else>Following</AButton>
+                <AButton @click="followUser("follow")"  v-if="!props.isFollowing">Follow</AButton>
+                <AButton @click="followUser("unfollow")"  v-else>Following</AButton>
             </div>
             
             </div>
@@ -44,12 +44,39 @@ const {user: users} = storeToRefs(userStore)
 
 const {username: profileUsername} = route.params
 
-const followUser = async () => {
-    await supabase.from('followers_following')
+const followUser = async (follow) => {
+    if (follow = "follow" )
+     { const {data} = await supabase.from('followers_following')
     .insert({
         follower_id: users.value.id,
         following_id: props.user.id,
     })
+    if (data) 
+    //  tutaj zmienic na buttona
+    // 
+    // 
+    // 
+    // 
+    // 
+    // 
+    // }
+     }}
+     
+if (follow = "unfollow" )
+     { const {data} = await supabase.from('followers_following')
+    .insert({
+        follower_id: users.value.id,
+        following_id: props.user.id,
+    })
+    if (data) 
+    //  tutaj zmienic na buttona
+    // 
+    // 
+    // 
+    // 
+    // 
+    // 
+    // }
 }
 
 </script>
