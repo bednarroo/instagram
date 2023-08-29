@@ -5,7 +5,7 @@
                 :key="username"
                 :user = "user"
                 :userInfo="{
-                    posts: 4,
+                    posts: posts.length,
                     followers: 100,
                     following: 342
                 }"
