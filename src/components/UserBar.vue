@@ -9,8 +9,8 @@
                 >
             </UploadPhotoModal>
             <div v-else>
-                <AButton @click="followUser("follow")"  v-if="!props.isFollowing">Follow</AButton>
-                <AButton @click="followUser("unfollow")"  v-else>Following</AButton>
+                <AButton @click="followUser"  v-if="!props.isFollowing">Follow</AButton>
+                <AButton @click="unFollowUser"  v-else>Following</AButton>
             </div>
             
             </div>
@@ -44,39 +44,25 @@ const {user: users} = storeToRefs(userStore)
 
 const {username: profileUsername} = route.params
 
-const followUser = async (follow) => {
-    if (follow = "follow" )
-     { const {data} = await supabase.from('followers_following')
+const followUser = async () => {
+   const {data} = await supabase.from('followers_following')
     .insert({
         follower_id: users.value.id,
         following_id: props.user.id,
     })
-    if (data) 
-    //  tutaj zmienic na buttona
-    // 
-    // 
-    // 
-    // 
-    // 
-    // 
-    // }
-     }}
-     
-if (follow = "unfollow" )
-     { const {data} = await supabase.from('followers_following')
-    .insert({
-        follower_id: users.value.id,
-        following_id: props.user.id,
-    })
-    if (data) 
-    //  tutaj zmienic na buttona
-    // 
-    // 
-    // 
-    // 
-    // 
-    // 
-    // }
+    console.log(data)
+    if (data) {
+        console.log('follow')
+    }
+    
+}
+const unFollowUser = async () => {
+    const {data, error} = await supabase.from('followers_following')
+    .delete()
+    .eq('follower_id', users.value.id,)
+    .eq('following_id', props.user.id)
+        // console.log(data)
+        // console.log(error)
 }
 
 </script>
