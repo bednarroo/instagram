@@ -2,7 +2,7 @@
     <Container>
         <div class="profile-container" v-if="!loading">
             <UserBar
-                :key="$route.params.username"
+                :key="username"
                 :user = "user"
                 :userInfo="{
                     posts: 4,
@@ -40,8 +40,7 @@ const user = ref(null)
 const userStore = useUserStore()
 const {user: loggedInUser} = storeToRefs(userStore)
 const changeOption = () => {
-    isFollowing.value  === !isFollowing.value
-    console.log(isFollowing.value)
+    isFollowing.value  = !isFollowing.value
 }
 
 const {username} = route.params
@@ -68,29 +67,25 @@ const fetchData = async () => {
 
         user.value=userData
         
-
         const {data: postsData} = await supabase
         .from('posts')
         .select()
         .eq('owner_id', user.value.id)
 
         posts.value = postsData
-        await fetchIsFollowing(user.value.id)
+        await fetchIsFollowing()
         loading.value = false
 
 }
 
-const fetchIsFollowing = async (userData) => {
-    if(loggedInUser.value && loggedInUser.value.id !== user.value.id){
-    const { data, error } = await supabase
+const fetchIsFollowing = async () => {
+    if(loggedInUser.value && (loggedInUser.value.id !== user.value.id)){
+    const { data} = await supabase
         .from('followers_following')
         .select()
         .eq('follower_id', loggedInUser.value.id)
-        .eq('following_id', userData)
+        .eq('following_id', user.value.id)
         .single()
-        console.log(error)
-        console.log(loggedInUser.value.id)
-        console.log(userData.id)
         if (data){
             return (isFollowing.value = true)
         } 
