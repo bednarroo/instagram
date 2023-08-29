@@ -6,8 +6,8 @@
                 :user = "user"
                 :userInfo="{
                     posts: posts.length,
-                    followers: 100,
-                    following: 342
+                    followers: 10,
+                    following: 5
                 }"
                 :addNewPost="addNewPost"
                 :isFollowing="isFollowing"
@@ -37,6 +37,7 @@ import { storeToRefs } from 'pinia'
 
 const route = useRoute()
 const user = ref(null)
+const userInfo = ref(null)
 const userStore = useUserStore()
 const {user: loggedInUser} = storeToRefs(userStore)
 const changeOption = () => {
@@ -74,6 +75,10 @@ const fetchData = async () => {
 
         posts.value = postsData
         await fetchIsFollowing()
+        userInfo.value.followers = posts.value.length
+        userInfo.value.followers = await followerNumber()
+        userInfo.value.following = await followersNumber()
+        console.log(userInfo.value.following, userInfo.value.followers, userInfo.value.followers )
         loading.value = false
 
 }
@@ -90,6 +95,22 @@ const fetchIsFollowing = async () => {
             return (isFollowing.value = true)
         } 
     }
+}
+
+const followersNumber = async () => {
+    console.log(user.value.id)
+    const response = await supabase
+    .from('followers_following')
+    .select('*', { count: 'exact' })
+    .eq('following_id', user.value.id)
+    return response
+}
+const followerNumber = async () => {
+    const response = await supabase
+    .from('followers_following')
+    .select('*', { count: 'exact' })
+    .eq('follower_id', user.value.id)
+    return response
 }
 
 watch(username, () => {
