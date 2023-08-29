@@ -62,7 +62,7 @@ const fetchData = async () => {
         }
 
         user.value=userData
-        fetchIsFollowing()
+        
 
         const {data: postsData} = await supabase
         .from('posts')
@@ -70,18 +70,22 @@ const fetchData = async () => {
         .eq('owner_id', user.value.id)
 
         posts.value = postsData
+        await fetchIsFollowing(user.value.id)
         loading.value = false
 
 }
 
-const fetchIsFollowing = async () => {
+const fetchIsFollowing = async (userData) => {
     if(loggedInUser.value && loggedInUser.value.id !== user.value.id){
-    const { data } = await supabase
+    const { data, error } = await supabase
         .from('followers_following')
         .select()
-        .eq('follower_id', loggedInUser.value)
-        .eq('following_id', username)
+        .eq('follower_id', loggedInUser.value.id)
+        .eq('following_id', userData)
         .single()
+        console.log(error)
+        console.log(loggedInUser.value.id)
+        console.log(userData.id)
         if (data){
             return (isFollowing.value = true)
         } 
@@ -89,7 +93,6 @@ const fetchIsFollowing = async () => {
 }
 
 watch(username, () => {
-    console.log(isFollowing.value)
     fetchIsFollowing()
 })
 
