@@ -11,6 +11,7 @@
                 }"
                 :addNewPost="addNewPost"
                 :isFollowing="isFollowing"
+                @changeOption="changeOption"
             />
             <ImageGallery
                 :posts="posts"
@@ -38,6 +39,10 @@ const route = useRoute()
 const user = ref(null)
 const userStore = useUserStore()
 const {user: loggedInUser} = storeToRefs(userStore)
+const changeOption = () => {
+    isFollowing.value  === !isFollowing.value
+    console.log(isFollowing.value)
+}
 
 const {username} = route.params
 

@@ -30,7 +30,7 @@
 </template>
 
 <script setup>
-import {defineProps, onMounted, onUpdated} from 'vue'
+import {defineProps} from 'vue'
 import UploadPhotoModal from './UploadPhotoModal.vue'
 import { useRoute } from 'vue-router'
 import {useUserStore} from '../stores/users'
@@ -41,28 +41,33 @@ const props = defineProps(['user','username', 'userInfo', 'isFollowing'])
 const route = useRoute()
 const userStore = useUserStore()
 const {user: users} = storeToRefs(userStore)
+const emit = defineEmits(['changeOption'])
 
 const {username: profileUsername} = route.params
 
 const followUser = async () => {
-   const {data} = await supabase.from('followers_following')
+   const data = await supabase.from('followers_following')
     .insert({
         follower_id: users.value.id,
         following_id: props.user.id,
     })
     console.log(data)
-    if (data) {
-        console.log('follow')
+    if (data.status === 201) {
+        console.log("followUser")
+        emit('changeOption')
     }
     
 }
 const unFollowUser = async () => {
-    const {data, error} = await supabase.from('followers_following')
+    const data = await supabase.from('followers_following')
     .delete()
     .eq('follower_id', users.value.id,)
     .eq('following_id', props.user.id)
-        // console.log(data)
-        // console.log(error)
+        console.log(data)
+        if (data.status === 204) {
+            console.log("unfollowUser")
+            emit('changeOption')
+    }
 }
 
 </script>
