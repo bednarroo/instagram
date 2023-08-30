@@ -4,11 +4,7 @@
             <UserBar
                 :key="username"
                 :user = "user"
-                :userInfo="{
-                    posts: posts.length,
-                    followers: 10,
-                    following: 5
-                }"
+                :userInfo="userInfo"
                 :addNewPost="addNewPost"
                 :isFollowing="isFollowing"
                 @changeOption="changeOption"
@@ -37,7 +33,7 @@ import { storeToRefs } from 'pinia'
 
 const route = useRoute()
 const user = ref(null)
-const userInfo = ref(null)
+const userInfo = ref({})
 const userStore = useUserStore()
 const {user: loggedInUser} = storeToRefs(userStore)
 const changeOption = () => {
@@ -75,10 +71,9 @@ const fetchData = async () => {
 
         posts.value = postsData
         await fetchIsFollowing()
-        userInfo.value.followers = posts.value.length
+        userInfo.value.posts = posts.value.length
         userInfo.value.followers = await followerNumber()
         userInfo.value.following = await followersNumber()
-        console.log(userInfo.value.following, userInfo.value.followers, userInfo.value.followers )
         loading.value = false
 
 }
@@ -98,19 +93,18 @@ const fetchIsFollowing = async () => {
 }
 
 const followersNumber = async () => {
-    console.log(user.value.id)
     const response = await supabase
     .from('followers_following')
     .select('*', { count: 'exact' })
     .eq('following_id', user.value.id)
-    return response
+    return response.data.length
 }
 const followerNumber = async () => {
     const response = await supabase
     .from('followers_following')
     .select('*', { count: 'exact' })
     .eq('follower_id', user.value.id)
-    return response
+    return response.data.length
 }
 
 watch(username, () => {
