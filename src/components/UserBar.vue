@@ -51,9 +51,7 @@ const followUser = async () => {
         follower_id: users.value.id,
         following_id: props.user.id,
     })
-    console.log(data)
     if (data.status === 201) {
-        console.log("followUser")
         emit('changeOption')
     }
     
@@ -63,9 +61,7 @@ const unFollowUser = async () => {
     .delete()
     .eq('follower_id', users.value.id,)
     .eq('following_id', props.user.id)
-        console.log(data)
         if (data.status === 204) {
-            console.log("unfollowUser")
             emit('changeOption')
     }
 }
