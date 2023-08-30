@@ -5,7 +5,6 @@
                 :key="username"
                 :user = "user"
                 :userInfo="userInfo"
-                :addNewPost="addNewPost"
                 :isFollowing="isFollowing"
                 @changeOption="changeOption"
             />
@@ -46,9 +45,6 @@ const posts = ref([])
 const isFollowing = ref(false)
 const loading = ref(false)
 
-const addNewPost = (post) => {
-    posts.value.unshift(post)
-}
 
 const fetchData = async () => {
     loading.value = true

@@ -52,6 +52,7 @@
             caption: caption.value,
             owner_id: user.value.id
         })
+        location.reload()
 
     }
 
