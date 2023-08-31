@@ -1,7 +1,7 @@
 <template>
     <div  class="timeline-container">
     <Card 
-    v-for="post in data"
+    v-for="post in posts"
     :post="post"
     :key="post.id"
     />
@@ -29,14 +29,13 @@ const fetchData = async () => {
 
     const owner_ids = following.map(f =>  f.following_id)
 
-    const data =  await supabase
+    const {data} =  await supabase
         .from('posts')
         .select()
         .in('owner_id', owner_ids)
+        .order("created_at", {ascending: false})
 
     posts.value = data
-
-    console.log(posts.value)
 }
 
 onMounted(()=>{
