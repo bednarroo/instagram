@@ -1,11 +1,14 @@
 <template>
     <Container>
-        <div class="timeline-container">
+        <div v-if="user" class="timeline-container">
             <Card 
              v-for="post in data"
              :post="post"
              :key="post.id"
              />
+        </div>
+        <div v-else class="timeline-container">
+            <h3>Log in to see posts</h3>
         </div>
         
     </Container>
@@ -14,6 +17,12 @@
 <script setup>
 import Card from "./Card.vue";
 import Container from "./Container.vue";
+import {useUserStore} from "../stores/users"
+import { storeToRefs } from "pinia";
+
+const userStore = useUserStore()
+
+const { user } = storeToRefs(userStore)
 
 const data = [
     {id: 1,
