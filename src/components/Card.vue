@@ -1,10 +1,10 @@
 <template>
     <ACard hoverable style="width: 240px" class="card">
       <template #cover>
-        <img alt="example" :src="`https://vfxbeefgfhemwvzdsabt.supabase.co/storage/v1/object/public/images/${post.url}`" />
+        <img alt="example" :src="`https://vfxbeefgfhemwvzdsabt.supabase.co/storage/v1/object/public/images/${props.post.url}`" />
       </template>
       <ACardMeta  :title="post.name">
-        <template #description>{{post.caption}}</template>
+        <template #description>{{props.post.caption}}</template>
       </ACardMeta>
     </ACard>
   </template>

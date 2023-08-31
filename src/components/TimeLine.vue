@@ -13,7 +13,7 @@
 <script setup>
 import Cards from "./Cards.vue"
 import LogInMessage from "./LogInMessage.vue"
-import Container from "./Container.vue";
+import Container from "./Container.vue"
 import {useUserStore} from "../stores/users"
 import { storeToRefs } from "pinia";
 
