@@ -3,8 +3,8 @@
         <div style="width: 100%;" v-if="!loadingUser">
             <Cards v-if="user"/>
             <LogInMessage v-else/>
-        <div>
-            <ASpin class="spinner"/>
+        <div v-else >
+            <ASpin  class="spinner"/>
         </div>
         </div>
     </Container>
