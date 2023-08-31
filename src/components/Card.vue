@@ -1,7 +1,7 @@
 <template>
     <ACard hoverable style="width: 240px" class="card">
       <template #cover>
-        <img alt="example" :src="post.url" />
+        <img alt="example" :src="`https://vfxbeefgfhemwvzdsabt.supabase.co/storage/v1/object/public/images/${post.url}`" />
       </template>
       <ACardMeta  :title="post.name">
         <template #description>{{post.caption}}</template>
