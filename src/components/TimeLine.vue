@@ -1,11 +1,11 @@
 <template>
     <Container>
-        <div style="width: 100%;" v-if="!loadingUser">
+        <div v-if="!loadingUser" style="width: 100%;" >
             <Cards v-if="user"/>
             <LogInMessage v-else/>
+        </div>
         <div v-else >
             <ASpin  class="spinner"/>
-        </div>
         </div>
     </Container>
 </template>
