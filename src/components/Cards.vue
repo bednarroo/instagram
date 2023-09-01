@@ -5,7 +5,7 @@
     :post="post"
     :key="post.id"
     />
-    <Observer @intersect="fetchNextSet"/>
+    <Observer v-if="posts.length" @intersect="fetchNextSet"/>
 </div>
 </template>
 
