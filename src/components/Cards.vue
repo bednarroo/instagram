@@ -5,6 +5,7 @@
     :post="post"
     :key="post.id"
     />
+    <Observer/>
 </div>
 </template>
 
@@ -15,6 +16,7 @@ import {supabase} from '.././supabase'
 import {useUserStore} from '../stores/users'
 import { storeToRefs } from 'pinia';
 import { onMounted, ref } from 'vue';
+import Observer from './Observer.vue'
 
 const userStore = useUserStore()
 const {user} = storeToRefs(userStore)
