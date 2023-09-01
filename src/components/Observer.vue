@@ -4,9 +4,8 @@
 
 <style scoped>
 .observer{
-    height: 30px;
-    background-color: red;
-    width: 30px;
+    height: 10px;
+    width: 10px;
 }
 </style>
 <script setup>
