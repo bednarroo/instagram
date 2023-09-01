@@ -11,15 +11,16 @@
 </style>
 <script setup>
 
-import {ref, onMounted} from 'vue'
+import {ref, onMounted, defineEmits} from 'vue'
 
 const observer = ref(null)
 const root = ref(null)
+const emits = defineEmits(["intersect"])
 
 onMounted(()=>{
     observer.value = new IntersectionObserver(([entry])=>{
         if(entry && entry.isIntersecting){
-            console.log('triggered')
+            emits('intersect')
         }
     })
     observer.value.observe(root.value)

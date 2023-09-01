@@ -5,7 +5,7 @@
     :post="post"
     :key="post.id"
     />
-    <Observer/>
+    <Observer @intersect="fetchNextSet"/>
 </div>
 </template>
 
@@ -38,6 +38,10 @@ const fetchData = async () => {
         .order("created_at", {ascending: false})
 
     posts.value = data
+}
+
+const fetchNextSet = () => {
+    console.log("Fetch Next Set")
 }
 
 onMounted(()=>{
